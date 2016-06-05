@@ -1,0 +1,39 @@
+---
+kind: Template
+apiVersion: v1
+
+objects:
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: ktmpl-test
+    app: "$(METADATA_APP)"
+    component: "$(METADATA_COMPONENT)"
+  spec:
+    type: NodePort
+    ports:
+    - port: "$((PORT))"
+    selector:
+      name: ktmpl-test
+
+- kind: Secret
+  apiVersion: v1
+  metadata:
+    name: ktmpl-test
+  data:
+    aws-secret-access-key: "$(AWS_SECRET_ACCESS_KEY_BASE64)"
+
+parameters:
+- name: "METADATA_APP"
+  description: "Application name"
+  required: true
+- name: "METADATA_COMPONENT"
+  description: "Application component"
+  required: true
+- name: "PORT"
+  description: "Port to listen on"
+  required: false
+  value: 80
+- name: "AWS_SECRET_ACCESS_KEY_BASE64"
+  description: "AWS Secret Access Key"
+  required: true

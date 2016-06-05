@@ -1,0 +1,25 @@
+name: ktmpl
+version: 0.1.0
+description: Process Kubernetes template files using ktmpl.
+keywords:
+- ktmpl
+- kubernetes
+- templates
+properties:
+  template:
+    type: string
+    required: true
+  output:
+    type: string
+    default: kubernetes.yml
+    required: false
+  parameters:
+    type: string
+    required: false
+  base64_parameters:
+    type: string
+    required: false
+  version:
+    type: string
+    default: "0.3.0"
+    required: false
