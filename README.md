@@ -14,6 +14,7 @@ deploy:
     parameters: REPLICA_COUNT=2 KEY=foo # optional, regular parameters
     base64_parameters: SECRET=$secret   # optional, will be base64 encoded
     version: 0.3.0                      # optional, ktmpl version to download
+    debug: true                         # optional, print debug information
 ```
 
 ## License

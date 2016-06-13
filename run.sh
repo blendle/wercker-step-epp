@@ -18,9 +18,17 @@ main() {
 
   download
 
+  if [ "$WERCKER_KTMPL_DEBUG" = "true" ]; then
+    debug "./ktmpl $WERCKER_KTMPL_TEMPLATE $args > $WERCKER_KTMPL_OUTPUT"
+  fi
+
   ./ktmpl "$WERCKER_KTMPL_TEMPLATE" $args > "$WERCKER_KTMPL_OUTPUT"
 
   rm ktmpl
+}
+
+debug() {
+  printf "%b%b%b\n" "\e[38m\e[1m" "$1" "\e[m"
 }
 
 fail() {

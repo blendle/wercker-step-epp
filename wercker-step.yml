@@ -23,3 +23,6 @@ properties:
     type: string
     default: "0.3.0"
     required: false
+  debug:
+    type: string
+    required: false
