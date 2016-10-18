@@ -1,4 +1,4 @@
-# Manifest template processing [![wercker status](https://app.wercker.com/status/5805f4d57bcebf0100e6083a/s/master "wercker status")](https://app.wercker.com/project/bykey/5805f4d57bcebf0100e6083a)
+# Manifest template processing [![wercker status](https://app.wercker.com/status/bb81f5937ad7a2ec5c7f86b82ffb1476/m "wercker status")](https://app.wercker.com/project/bykey/bb81f5937ad7a2ec5c7f86b82ffb1476)
 
 This step uses the [`expenv`][expenv] tool to parse template files
 and stores the generated file for future usage with like the [`kubectl`][kubectl] step.
