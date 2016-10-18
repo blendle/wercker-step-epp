@@ -3,25 +3,25 @@ box: ubuntu
 build:
   steps:
     - install-packages:
-      packages: curl
+        packages: curl
     - shellcheck:
-      files: run.sh
+        files: run.sh
     - script:
-      name: test run.sh
-      code: |
-        export WERCKER_EXPENV_VERSION=1.2.0
-        export WERCKER_EXPENV_TEMPLATE=example.yml
-        export WERCKER_EXPENV_OUTPUT=kubernetes.yml
-        export WERCKER_EXPENV_PARAMETERS="METADATA_APP=hello METADATA_COMPONENT=world PORT=80"
-        export BARE_ENV=test
+        name: test run.sh
+        code: |
+          export WERCKER_EXPENV_VERSION=1.2.0
+          export WERCKER_EXPENV_TEMPLATE=example.yml
+          export WERCKER_EXPENV_OUTPUT=kubernetes.yml
+          export WERCKER_EXPENV_PARAMETERS="METADATA_APP=hello METADATA_COMPONENT=world PORT=80"
+          export BARE_ENV=test
 
-        $WERCKER_ROOT/run.sh
+          $WERCKER_ROOT/run.sh
 
-        cat kubernetes.yml
+          cat kubernetes.yml
 
-        grep -q 'port: 80' kubernetes.yml           || fail "invalid default value"
-        grep -q 'app: "hello"' kubernetes.yml       || fail "invalid parameter value"
-        grep -q 'component: "world"' kubernetes.yml || fail "invalid parameter value"
+          grep -q 'port: 80' kubernetes.yml           || fail "invalid default value"
+          grep -q 'app: "hello"' kubernetes.yml       || fail "invalid parameter value"
+          grep -q 'component: "world"' kubernetes.yml || fail "invalid parameter value"
     - script:
-      name: prepare output
-      code: rm -rf $WERCKER_ROOT/{.git,kubernetes.yml}
+        name: prepare output
+        code: rm -rf $WERCKER_ROOT/{.git,kubernetes.yml}
