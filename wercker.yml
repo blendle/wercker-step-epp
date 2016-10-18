@@ -1,24 +1,27 @@
-box: wercker/default
+box: ubuntu
 
 build:
   steps:
+    - install-packages:
+      packages: curl
     - shellcheck:
-        files: run.sh
+      files: run.sh
     - script:
-        name: test run.sh
-        code: |
-          export WERCKER_KTMPL_VERSION=0.3.0
-          export WERCKER_KTMPL_TEMPLATE=example.yml
-          export WERCKER_KTMPL_OUTPUT=kubernetes.yml
-          export WERCKER_KTMPL_PARAMETERS="METADATA_APP=hello METADATA_COMPONENT=world"
-          export WERCKER_KTMPL_BASE64_PARAMETERS="AWS_SECRET_ACCESS_KEY_BASE64=helloworld"
+      name: test run.sh
+      code: |
+        export WERCKER_EXPENV_VERSION=1.2.0
+        export WERCKER_EXPENV_TEMPLATE=example.yml
+        export WERCKER_EXPENV_OUTPUT=kubernetes.yml
+        export WERCKER_EXPENV_PARAMETERS="METADATA_APP=hello METADATA_COMPONENT=world PORT=80"
+        export BARE_ENV=test
 
-          $WERCKER_ROOT/run.sh
+        $WERCKER_ROOT/run.sh
 
-          grep -q aGVsbG93b3JsZA== kubernetes.yml       || fail "invalid base64 value"
-          grep -q '"port": 80' kubernetes.yml           || fail "invalid default value"
-          grep -q '"app": "hello"' kubernetes.yml       || fail "invalid parameter value"
-          grep -q '"component": "world"' kubernetes.yml || fail "invalid parameter value"
+        cat kubernetes.yml
+
+        grep -q 'port: 80' kubernetes.yml           || fail "invalid default value"
+        grep -q 'app: "hello"' kubernetes.yml       || fail "invalid parameter value"
+        grep -q 'component: "world"' kubernetes.yml || fail "invalid parameter value"
     - script:
-        name: prepare output
-        code: rm -rf $WERCKER_ROOT/{.git,kubernetes.yml}
+      name: prepare output
+      code: rm -rf $WERCKER_ROOT/{.git,kubernetes.yml}

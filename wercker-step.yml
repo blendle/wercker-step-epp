@@ -1,8 +1,8 @@
-name: ktmpl
-version: 0.2.0
-description: Process Kubernetes template files using ktmpl.
+name: expenv
+version: 0.1.0
+description: Process template files using expenv.
 keywords:
-- ktmpl
+- expenv
 - kubernetes
 - templates
 properties:
@@ -21,7 +21,7 @@ properties:
     required: false
   version:
     type: string
-    default: "0.3.0"
+    default: 1.2.0
     required: false
   debug:
     type: string

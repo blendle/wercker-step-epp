@@ -1,30 +1,25 @@
 #!/bin/sh
-#shellcheck disable=2086,2089,SC2090
 
 main() {
-  args=""
-
-  if [ ! -e "$WERCKER_KTMPL_TEMPLATE" ]; then
-    fail "template not found \"$WERCKER_KTMPL_TEMPLATE\""
-  fi
-
-  if [ -n "$WERCKER_KTMPL_PARAMETERS" ]; then
-    args="--parameter $WERCKER_KTMPL_PARAMETERS"
-  fi
-
-  if [ -n "$WERCKER_KTMPL_BASE64_PARAMETERS" ]; then
-    args="$args --base64-parameter $WERCKER_KTMPL_BASE64_PARAMETERS"
+  if [ ! -e "$WERCKER_EXPENV_TEMPLATE" ]; then
+    fail "template not found \"$WERCKER_EXPENV_TEMPLATE\""
   fi
 
   download
 
-  if [ "$WERCKER_KTMPL_DEBUG" = "true" ]; then
-    debug "./ktmpl $WERCKER_KTMPL_TEMPLATE $args > $WERCKER_KTMPL_OUTPUT"
+  if [ "$WERCKER_EXPENV_DEBUG" = "true" ]; then
+    debug "./expenv -f $WERCKER_EXPENV_TEMPLATE > $WERCKER_EXPENV_OUTPUT"
   fi
 
-  ./ktmpl "$WERCKER_KTMPL_TEMPLATE" $args > "$WERCKER_KTMPL_OUTPUT"
+  if [ -n "$WERCKER_EXPENV_PARAMETERS" ]; then
+    set -a
+    eval "$WERCKER_EXPENV_PARAMETERS"
+    set +a
+  fi
 
-  rm ktmpl
+  ./expenv -f "$WERCKER_EXPENV_TEMPLATE" > "$WERCKER_EXPENV_OUTPUT"
+
+  rm expenv
 }
 
 debug() {
@@ -38,10 +33,9 @@ fail() {
 }
 
 download() {
-  version="$WERCKER_KTMPL_VERSION"
-  type=$(uname -s | awk '{print tolower($0)}')
-  curl --fail --location --silent "https://github.com/InQuicker/ktmpl/releases/download/$version/ktmpl-$version-$type.tar.gz" | tar -xz
-  chmod +x ktmpl
+  version=$WERCKER_EXPENV_VERSION
+  curl --fail -L --silent "https://github.com/blang/expenv/releases/download/v$version/expenv_amd64.tar.gz" | tar -xz
+  chmod +x expenv
 }
 
 main
