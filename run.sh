@@ -7,17 +7,17 @@ main() {
 
   download
 
-  if [ "$WERCKER_EXPENV_DEBUG" = "true" ]; then
-    debug "./expenv -f $WERCKER_EXPENV_TEMPLATE > $WERCKER_EXPENV_OUTPUT"
-  fi
-
   if [ -n "$WERCKER_EXPENV_PARAMETERS" ]; then
     set -a
     eval "$WERCKER_EXPENV_PARAMETERS"
     set +a
   fi
 
-  ./expenv -f "$WERCKER_EXPENV_TEMPLATE" > "$WERCKER_EXPENV_OUTPUT"
+  if [ "$WERCKER_EXPENV_DEBUG" = "true" ]; then
+    debug "./expenv -f $WERCKER_EXPENV_TEMPLATE | tee $WERCKER_EXPENV_OUTPUT"
+  fi
+
+  ./expenv -f "$WERCKER_EXPENV_TEMPLATE" | tee "$WERCKER_EXPENV_OUTPUT"
 
   rm expenv
 }
