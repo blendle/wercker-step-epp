@@ -17,7 +17,8 @@ main() {
     debug "./expenv -f $WERCKER_EXPENV_TEMPLATE | tee $WERCKER_EXPENV_OUTPUT"
   fi
 
-  ./expenv -f "$WERCKER_EXPENV_TEMPLATE" | tee "$WERCKER_EXPENV_OUTPUT" > /dev/null
+  ./expenv -f "$WERCKER_EXPENV_TEMPLATE" > tmp
+  cat tmp > "$WERCKER_EXPENV_OUTPUT"
 
   rm expenv
 }
