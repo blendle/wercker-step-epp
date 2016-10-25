@@ -17,7 +17,7 @@ main() {
     debug "./expenv -f $WERCKER_EXPENV_TEMPLATE | tee $WERCKER_EXPENV_OUTPUT"
   fi
 
-  TMP_FILE=$(mktmp ./template.XXXXXXXX)
+  TMP_FILE=$(mktemp ./template.XXXXXXXX)
   ./expenv -f "$WERCKER_EXPENV_TEMPLATE" > "$TMP_FILE"
   cat "$TMP_FILE" > "$WERCKER_EXPENV_OUTPUT"
 
