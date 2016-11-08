@@ -1,4 +1,4 @@
-# Manifest template processing
+# Manifest template processing [![wercker status](https://app.wercker.com/status/0023b4bdc6d5ebe2d8faf87037464d3b/s "wercker status")](https://app.wercker.com/project/bykey/0023b4bdc6d5ebe2d8faf87037464d3b)
 
 This step uses the [`epp`][epp] tool to parse template files
 and stores the generated file for future usage with like the [`kubectl`][kubectl] step.
@@ -8,7 +8,7 @@ and stores the generated file for future usage with like the [`kubectl`][kubectl
 ```yml
 deploy:
   steps:
-  - blendle/expenv:
+  - blendle/epp:
     template: template.yml              # required, must contain valid template
     output: deployment.yml              # optional, defaults to kubernetes.yml
 ```
