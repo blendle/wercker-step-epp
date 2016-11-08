@@ -1,4 +1,4 @@
-box: ruby
+box: wercker/default
 
 build:
   steps:
