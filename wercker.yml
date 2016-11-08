@@ -1,4 +1,4 @@
-box: wercker/default
+box: ruby
 
 build:
   steps:
@@ -7,19 +7,15 @@ build:
     - script:
         name: test run.sh
         code: |
-          export WERCKER_EXPENV_VERSION=1.2.0
-          export WERCKER_EXPENV_TEMPLATE=example.yml
-          export WERCKER_EXPENV_OUTPUT=kubernetes.yml
-          export WERCKER_EXPENV_PARAMETERS="METADATA_APP=hello METADATA_COMPONENT=world PORT=80"
+          export WERCKER_EPP_TEMPLATE=example.yml
+          export WERCKER_EPP_OUTPUT=kubernetes.yml
+          export PORT=80
           export BARE_ENV=test
 
           $WERCKER_ROOT/run.sh
 
-          cat kubernetes.yml
-
-          grep -q 'port: 80' kubernetes.yml           || fail "invalid default value"
-          grep -q 'app: "hello"' kubernetes.yml       || fail "invalid parameter value"
-          grep -q 'component: "world"' kubernetes.yml || fail "invalid parameter value"
+          grep 'port: 80' kubernetes.yml || fail "expansion not working"
+          grep 'test: test' kubernetes.yml || fail "expansion not working"
     - script:
         name: prepare output
         code: rm -rf $WERCKER_ROOT/{.git,kubernetes.yml}

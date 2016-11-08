@@ -6,13 +6,13 @@ objects:
 - kind: Service
   apiVersion: v1
   metadata:
-    name: expenv-test
-    app: "$METADATA_APP"
-    component: "${METADATA_COMPONENT}"
+    name: epp-test
   spec:
     type: NodePort
+    {% if PORT %}
     ports:
-    - port: $PORT
+    - port: {{ PORT }}
+    {% endif %}
     selector:
-      name: expenv-test
-      test: "$BARE_ENV"
+      name: epp-test
+      test: {{ BARE_ENV }}

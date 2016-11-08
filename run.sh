@@ -1,27 +1,23 @@
 #!/bin/sh
 
 main() {
-  if [ ! -e "$WERCKER_EXPENV_TEMPLATE" ]; then
-    fail "template not found \"$WERCKER_EXPENV_TEMPLATE\""
+  if [ ! -e "$WERCKER_EPP_TEMPLATE" ]; then
+    fail "template not found \"$WERCKER_EPP_TEMPLATE\""
   fi
 
   download
 
-  if [ -n "$WERCKER_EXPENV_PARAMETERS" ]; then
-    set -a
-    eval "$WERCKER_EXPENV_PARAMETERS"
-    set +a
-  fi
-
-  if [ "$WERCKER_EXPENV_DEBUG" = "true" ]; then
-    debug "./expenv -f $WERCKER_EXPENV_TEMPLATE | tee $WERCKER_EXPENV_OUTPUT"
-  fi
-
   TMP_FILE=$(mktemp ./template.XXXXXXXX)
-  ./expenv -f "$WERCKER_EXPENV_TEMPLATE" > "$TMP_FILE"
-  cat "$TMP_FILE" > "$WERCKER_EXPENV_OUTPUT"
 
-  rm expenv
+  if [ "$WERCKER_EPP_DEBUG" = "true" ]; then
+    debug "./epp $WERCKER_EPP_TEMPLATE > $TMP_FILE"
+    debug "cat $TMP_FILE > $WERCKER_EPP_OUTPUT"
+  fi
+
+  ./epp "$WERCKER_EPP_TEMPLATE" > "$TMP_FILE"
+  cat "$TMP_FILE" > "$WERCKER_EPP_OUTPUT"
+
+  rm ./epp
 }
 
 debug() {
@@ -35,9 +31,8 @@ fail() {
 }
 
 download() {
-  version=$WERCKER_EXPENV_VERSION
-  curl --fail -L --silent "https://github.com/blang/expenv/releases/download/v$version/expenv_amd64.tar.gz" | tar -xz
-  chmod +x expenv
+  curl --fail -L --silent "https://github.com/soudy/epp/releases/download/v1.0.0/epp" -O epp
+  chmod +x epp
 }
 
 main

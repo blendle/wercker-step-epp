@@ -1,8 +1,8 @@
-name: expenv
-version: 0.1.5
-description: Process template files using expenv.
+name: epp
+version: 0.1.0
+description: Process template files using epp.
 keywords:
-- expenv
+- epp
 - kubernetes
 - templates
 properties:
@@ -12,17 +12,4 @@ properties:
   output:
     type: string
     default: kubernetes.yml
-    required: false
-  parameters:
-    type: string
-    required: false
-  base64_parameters:
-    type: string
-    required: false
-  version:
-    type: string
-    default: 1.2.0
-    required: false
-  debug:
-    type: string
     required: false
